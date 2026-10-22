@@ -110,3 +110,42 @@ As operações de criação, atualização e eliminação são simuladas e não 
 
 Os resultados e conclusões devem, por isso, ser interpretados no contexto desta API e dos objetivos de aprendizagem definidos.
 
+## Como executar os testes
+
+### 1. Importar a coleção no Postman
+
+1. Acede ao repositório deste projeto no GitHub.
+2. Abre o ficheiro da coleção Postman (`.postman_collection.json`).
+3. Clica em **Download raw file** ou utiliza a opção de download disponível para guardar o ficheiro no computador.
+4. Abre o Postman.
+5. Clica em **Import** e seleciona o ficheiro JSON.
+6. Confirma que a coleção foi adicionada à área **Collections**.
+
+### 2. Configurar a variável de ambiente
+
+1. No Postman, cria um ambiente chamado `QA API Testing - Demo`.
+2. Adiciona uma variável com o nome `baseUrl`.
+3. Define o valor da variável como `https://jsonplaceholder.typicode.com`.
+4. Guarda o ambiente e seleciona-o no Postman antes de executar os pedidos.
+5. Confirma que os URLs dos pedidos utilizam `{{baseUrl}}`, seguido do caminho correspondente, por exemplo `/users/1`.
+
+**Nota:** O ambiente pode precisar de ser criado manualmente, pois a variável não é necessariamente incluída no ficheiro exportado da coleção.
+
+### 3. Executar os testes
+
+1. No Postman, abre a coleção API - Tests - Postman.
+2. Para executar um pedido individualmente, seleciona o pedido e clica em **Send**.
+3. Para executar a coleção completa, abre o menu da coleção e seleciona **Run collection** ou a opção equivalente disponível na tua versão do Postman.
+4. Confirma que o ambiente `QA API Testing - Demo` está selecionado.
+5. Inicia a execução e aguarda pelos resultados.
+6. Consulta o resumo final para verificar quantos testes passaram e quantos falharam.
+
+### 4. Interpretar os resultados
+
+A coleção contém cenários positivos e negativos, incluindo validações do código HTTP e dos dados devolvidos pela API.
+
+O cenário de email inválido espera uma resposta HTTP 400 ou 422, mas a API de demonstração JSONPlaceholder devolve HTTP 201. Por esse motivo, o teste falha.
+
+Este resultado é documentado como uma diferença entre o resultado esperado e o observado, não como um defeito confirmado, pois a validação de email não foi estabelecida como requisito oficial da API.
+
+**Limitação:** O JSONPlaceholder é uma API de demonstração. As operações de criação, atualização e eliminação simulam os resultados, mas não garantem que as alterações fiquem guardadas permanentemente.
