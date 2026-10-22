@@ -1,0 +1,255 @@
+{
+  "info": {
+    "_postman_id": "7c3c2ce5-74d6-4657-8268-ba61f392ed4b",
+    "name": "JSONPlaceholder - API Testing",
+    "description": "REST API testing project covering GET, POST, PUT e DELETE requests, response validation, negative scenarios, and automated assertions using Postman.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29279177",
+    "_collection_link": "https://go.postman.co/collection/29279177-7c3c2ce5-74d6-4657-8268-ba61f392ed4b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "- Get User - Existing ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response contains the requested user ID\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.id).to.eql(1);\r\n});\r\n\r\npm.test(\"Response contains name and email\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.name).to.be.a(\"string\").and.not.empty;\r\n    pm.expect(body.email).to.be.a(\"string\").and.not.empty;\r\n});\r\n\r\n//Valida o formato do email\r\npm.test(\"Email has a valid basic format\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.email).to.match(\r\n        /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/\r\n    );\r\n});\r\n\r\n//valida formato de email inválido\r\npm.test(\"Email validation rejects an invalid format\", function () {\r\n    const invalidEmail = \"maria-sem-email\";\r\n\r\n    pm.expect(invalidEmail).to.not.match(\r\n        /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/\r\n    );\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete - User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Response body is an empty object\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body).to.eql({});\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User - Valid Data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Updated name is returned\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.name).to.eql(\"Leanne Updated\");\r\n});\r\n\r\npm.test(\"Updated email is returned\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.email).to.eql(\"leanne.updated@example.com\");\r\n});\r\n\r\npm.test(\"Response contains the expected user ID\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.id).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Leanne Updated\",\r\n  \"email\": \"leanne.updated@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get User - Non-existing ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/users/999",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            "999"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create User - Valid Data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Response contains the submitted valid email\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.email).to.eql(\"maria.qa@example.com\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Maria Silva\",\r\n  \"email\": \"maria.qa@example.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create User - Invalid Email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"API returns 201 for invalid email\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"API returns the submitted invalid email\", function () {\r\n    const body = pm.response.json();\r\n\r\n    pm.expect(body.email).to.eql(\"maria-sem-email.com\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Maria Silva\",\r\n  \"email\": \"maria-sem-email.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Invalid Email - Expected Rejection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid email is rejected\", function () {\r\n    pm.expect([400, 422]).to.include(pm.response.code);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Maria Silva\",\r\n  \"email\": \"maria-sem-email.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
